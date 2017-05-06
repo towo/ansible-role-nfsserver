@@ -1,8 +1,8 @@
 ---
 nfs_exports:
   - dir: /srv/nfs_export1
-    user: docker
-    group: docker
+    user: root
+    group: root
     mode: '0770'
     clients:
       "test-vm-01.domain":
