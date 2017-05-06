@@ -1,0 +1,8 @@
+---
+- name: restart nfs
+  service:
+    name: "{{ item }}"
+    state: restarted
+  when: nfs_exports|length
+  with_items:
+  - "{{ nfs_server_daemons }}"

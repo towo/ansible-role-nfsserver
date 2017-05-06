@@ -1,0 +1,7 @@
+---
+- name: Manage crontabs
+  hosts: localhost
+  remote_user: root
+  roles:
+    - role: ansible-role-nfsserver
+# vim:ft=ansible:

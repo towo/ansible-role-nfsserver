@@ -1,0 +1,33 @@
+---
+nfs_exports:
+  - dir: /srv/nfs_export1
+    user: docker
+    group: docker
+    mode: '0770'
+    clients:
+      "test-vm-01.domain":
+        - rw
+        - sync
+        - no_subtree_check
+
+      "test-vm-02.domain":
+        - ro
+        - sync
+        - no_subtree_check
+
+  - dir: /srv/nfs_export2
+    clients:
+      "gss/krb5i":
+        - rw
+        - sync
+        - fsid=0
+        - crossmnt
+        - no_subtree_check
+
+  - dir: /srv/nfs_export2/homes
+    clients:
+      "gss/krb5i":
+        - rw
+        - sync
+        - no_subtree_check
+

@@ -1,0 +1,63 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Include overrides specific to RHEL 7.
+  include_vars: RedHat-7.yml
+  when: >
+    ansible_os_family == 'RedHat' and
+    ansible_distribution_major_version == "7"
+
+- name: Install nfs server packages (apt)
+  apt:
+    name: "{{ item }}"
+    state: installed
+  when: ansible_os_family == 'Debian'
+  with_items: "{{ nfs_server_packages }}"
+
+- name: Install nfs server packages (yum)
+  yum:
+    name: "{{ item }}"
+    state: installed
+  when: ansible_os_family == 'RedHat'
+  with_items: "{{ nfs_server_packages }}"
+
+- name: Ensure rpcbind is running (RedHat)
+  when: ansible_os_family == 'RedHat'
+  service:
+    name: rpcbind
+    state: started
+    enabled: yes
+
+- name: Ensure directories to export exist
+  file:
+    path: "{{ item.dir }}"
+    state: directory
+    group: "{{ item.group | default('root') }}"
+    owner: "{{ item.user | default('root') }}"
+    mode: "{{ item.mode | default('0770') }}"
+  notify: restart nfs
+  with_items: "{{ nfs_exports }}"
+
+- name: Copy exports file.
+  template:
+    src: etc-exports.j2
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart nfs
+
+- name: Restart NFS immediately if exports are updated.
+  meta: flush_handlers
+
+- name: Ensure nfs is enabled and running.
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  when: nfs_exports|length
+  with_items:
+    - "{{ nfs_server_daemons }}"
+
+# FIXME: Make sure we restart nfs processes in correct order...

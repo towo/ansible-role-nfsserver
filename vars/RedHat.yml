@@ -1,0 +1,7 @@
+---
+nfs_server_packages:
+  - nfs-utils
+nfs_server_daemons:
+  - rpcbind
+  - nfslock
+  - nfs
