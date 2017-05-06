@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   author: uZer
-  description: Crontab management
+  description: NFS Server and exports configuration
   company: "TheVOID"
   license: "Beerware"
   min_ansible_version: 2.2
@@ -19,6 +19,6 @@ galaxy_info:
     versions:
     - all
   galaxy_tags:
-    - crontab
-    - deletion
-    - variables
+    - nfs
+    - nfsv3
+    - nfsv4
