@@ -13,8 +13,8 @@ Barely tested on Redhat 6, 7 and Ubuntu 14.04
 Usage examples
 --------------
 
+* NFSv3:
 ```yaml
-## NFSv3
 nfs_exports:
   - dir: /srv/nfs_export1
     user: ypiolet
@@ -30,8 +30,10 @@ nfs_exports:
         - ro
         - sync
         - no_subtree_check
+```
 
-## NFSv4
+* NFSv4:
+```yaml
 nfs_exports:
   - dir: /srv/nfs_export2
     clients:
