@@ -1,6 +1,5 @@
 ---
 nfs_server_packages:
-  - nfs-utils
   - nfs-common
   - nfs-kernel-server
 
