@@ -11,14 +11,14 @@
 - name: Install nfs server packages (apt)
   apt:
     name: "{{ item }}"
-    state: installed
+    state: present
   when: ansible_os_family == 'Debian'
   with_items: "{{ nfs_server_packages }}"
 
 - name: Install nfs server packages (yum)
   yum:
     name: "{{ item }}"
-    state: installed
+    state: present
   when: ansible_os_family == 'RedHat'
   with_items: "{{ nfs_server_packages }}"
 
